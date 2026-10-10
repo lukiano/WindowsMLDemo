@@ -1,0 +1,13 @@
+bin/
+obj/
+publish/
+.vs/
+*.user
+self-test.txt
+ui-test.txt
+ui-preview.png
+inference-profile*.json
+
+# Visual Studio migration artifacts
+Backup/
+UpgradeLog.htm

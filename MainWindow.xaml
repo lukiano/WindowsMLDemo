@@ -1,0 +1,57 @@
+<Window x:Class="WindowsMlDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Windows ML · Digit Lab" Width="820" Height="720" MinWidth="780" MinHeight="700"
+        Background="#F3F5F9" FontFamily="Segoe UI" WindowStartupLocation="CenterScreen">
+  <Grid Margin="32" Background="#F3F5F9">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <TextBlock Text="DIGIT LAB / WINDOWS ML" Foreground="#4261C7" FontWeight="SemiBold" FontSize="12"/>
+      <TextBlock Text="Draw a digit. Run a model." FontSize="30" FontWeight="SemiBold" Margin="0,8,0,6"/>
+      <TextBlock Text="Local ONNX inference with Windows ML. Try a digit from 0 to 9." Foreground="#536074"/>
+    </StackPanel>
+    <DockPanel Grid.Row="1" Margin="0,24,0,20">
+      <TextBlock Text="Execution provider" VerticalAlignment="Center" Margin="0,0,14,0"/>
+      <ComboBox x:Name="Provider" Width="250" HorizontalAlignment="Left" SelectedIndex="0" Padding="8,5">
+        <ComboBoxItem Content="NVIDIA TensorRT for RTX"/>
+        <ComboBoxItem Content="DirectML GPU (adapter 0)"/><ComboBoxItem Content="CPU"/>
+      </ComboBox>
+    </DockPanel>
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="320"/><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <StackPanel>
+        <Border Background="#11151E" Padding="20" CornerRadius="12">
+          <InkCanvas x:Name="Drawing" Width="280" Height="280" Background="Black"
+                     StrokeCollected="Drawing_StrokeCollected"/>
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+          <Button x:Name="RecognizeButton" Content="Recognize" Click="Recognize_Click" Background="#4261C7" Foreground="White"/>
+          <Button x:Name="ClearButton" Content="Clear" Click="Clear_Click"/>
+          <Button x:Name="SampleButton" Content="Sample" Click="Sample_Click" Margin="0"/>
+        </StackPanel>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="MODEL PREDICTION" FontSize="12" FontWeight="SemiBold" Foreground="#536074"/>
+        <TextBlock x:Name="Digit" Text="—" FontSize="72" FontWeight="SemiBold" Foreground="#1D2A45"/>
+        <TextBlock x:Name="Confidence" Text="Draw a large, centered digit." Foreground="#536074" Margin="0,0,0,12"/>
+        <ItemsControl x:Name="Scores">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid Margin="0,3">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="22"/><ColumnDefinition Width="*"/><ColumnDefinition Width="55"/></Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Digit}"/>
+                <ProgressBar Grid.Column="1" Value="{Binding Percent, Mode=OneWay}" Maximum="100" Height="8" Foreground="#4261C7" Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="2" Text="{Binding Label}" HorizontalAlignment="Right" FontSize="12"/>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Grid>
+    <TextBlock x:Name="Status" Grid.Row="3" Text="Ready · bundled MNIST model · 28 × 28 input" Foreground="#536074"
+               TextWrapping="Wrap" Margin="0,16,0,0"/>
+  </Grid>
+</Window>
